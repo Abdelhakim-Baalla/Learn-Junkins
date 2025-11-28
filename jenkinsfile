@@ -12,26 +12,16 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Backend Dependencies') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Installing backend dependencies...'
-                dir('backend') {
-                    run 'npm install'
-                }
+                echo 'Installing dependencies...'
+                run 'npm install'
             }
         }
-        stage('Install Frontend Dependencies') {
+        stage('Build') {
             steps {
-                echo 'Installing frontend dependencies...'
-                dir('frontend') {
-                    run 'npm install'
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                // Example: sh 'scp target/myapp.jar user@server:/opt/myapp'
+                echo 'Building the application...'
+                run 'npm run build'
             }
         }
     }
