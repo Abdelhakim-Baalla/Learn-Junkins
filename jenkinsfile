@@ -1,0 +1,50 @@
+pipeline {
+    agent any
+
+    tools {
+        nodejs 'NodeJS-20'
+    }
+
+    stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checkout the code...'
+                checkout scm
+            }
+        }
+        stage('Install Backend Dependencies') {
+            steps {
+                echo 'Installing backend dependencies...'
+                dir('backend') {
+                    run 'npm install'
+                }
+            }
+        }
+        stage('Install Frontend Dependencies') {
+            steps {
+                echo 'Installing frontend dependencies...'
+                dir('frontend') {
+                    run 'npm install'
+                }
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying the application...'
+                // Example: sh 'scp target/myapp.jar user@server:/opt/myapp'
+            }
+        }
+    }
+    post {
+        always {
+            echo 'Pipeline finished.'
+        }
+        success {
+            echo 'Pipeline succeeded!'
+        }
+        failure {
+            echo 'Pipeline failed!'
+        }
+    }
+}
+
